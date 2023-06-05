@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fake Information Generator</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .info-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #001100;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 255, 0, 0.3);
+      border-radius: 6px;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fade-in 0.5s forwards;
+    }
+
+    .info-label {
+      font-weight: bold;
+    }
+
+    .info-value {
+      color: #00ff00;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 4px;
+      border: none;
+      margin-right: 10px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 4px;
+      background-color: #00ff00;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+
+    @keyframes fade-in {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+  <script>
+    function generateFakeInfo() {
+      const nameInput = document.getElementById('name-input');
+      const name = nameInput.value;
+
+      if (name.trim() === '') {
+        alert('Please enter a name.');
+        return;
+      }
+
+      const infoContainer = document.getElementById('info-container');
+      infoContainer.innerHTML = '';
+
+      const fakeInfo = {
+        'IP Address': generateFakeIpAddress(),
+        'Location': generateFakeLocation(),
+        'Email': generateFakeEmail(name),
+        'Username': generateFakeUsername(name),
+        'Password': generateFakePassword(),
+        'Phone': generateFakePhone()
+      };
+
+      let delay = 0;
+
+      for (const key in fakeInfo) {
+        const infoItem = document.createElement('div');
+        infoItem.classList.add('info-item');
+        infoItem.style.animationDelay = delay + 's';
+
+        const infoLabel = document.createElement('span');
+        infoLabel.classList.add('info-label');
+        infoLabel.textContent = key;
+
+        const infoValue = document.createElement('span');
+        infoValue.classList.add('info-value');
+        infoValue.textContent = fakeInfo[key];
+
+        infoItem.appendChild(infoLabel);
+        infoItem.appendChild(infoValue);
+
+        infoContainer.appendChild(infoItem);
+
+        delay += 0.2;
+      }
+    }
+
+    function generateFakeIpAddress() {
+      return `${getRandomNumber(1, 255)}.${getRandomNumber(0, 255)}.${getRandomNumber(0, 255)}.${getRandomNumber(1, 254)}`;
+    }
+
+    function generateFakeLocation() {
+      const cities = ['New York', 'Los Angeles', 'London', 'Paris'];
+      const countries = ['United States', 'United Kingdom', 'France'];
+      const city = cities[Math.floor(Math.random() * cities.length)];
+      const country = countries[Math.floor(Math.random() * countries.length)];
+      return `${city}, ${country}`;
+    }
+
+    function generateFakeEmail(name) {
+      const domains = ['gmail.com', 'yahoo.com'];
+      const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+      return `${name.toLowerCase().replace(/\s/g, '')}@${randomDomain}`;
+    }
+
+    function generateFakeUsername(name) {
+      const randomNumbers = Math.floor(Math.random() * 100);
+      return `${name.replace(/\s/g, '').toLowerCase()}${randomNumbers}`;
+    }
+
+    function generateFakePassword() {
+      const symbols = ['!', '@', '#', '$', '%', '&'];
+      const randomSymbols = symbols[Math.floor(Math.random() * symbols.length)];
+      const randomNumbers = Math.floor(Math.random() * 10000);
+      return `${randomSymbols}${randomNumbers}`;
+    }
+
+    function generateFakePhone() {
+      return `+${getRandomNumber(1, 9)}${getRandomNumber(100, 999)}-${getRandomNumber(100, 999)}-${getRandomNumber(1000, 9999)}`;
+    }
+
+    function getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+  </script>
+</head>
+<body>
+  <h1>Very Real Information Generator</h1>
+
+  <div class="info-container" id="info-container"></div>
+
+  <div>
+    <input type="text" id="name-input" placeholder="Enter a name" />
+    <button onclick="generateFakeInfo()">Hack</button>
+  </div>
+</body>
+</html>
